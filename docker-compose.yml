@@ -1,0 +1,36 @@
+version: '3'
+services:
+  client-mongo:
+    image: mongoclient/mongoclient
+    restart: always
+    depends_on:
+      - db-quant
+    links:
+      - db-quant:db
+    networks:
+      frontend_quant:
+      backend_quant:
+    ports:
+      - "10.1.1.99:3000:3000/tcp"
+    volumes:
+      - volume-db-client-quant:/data/db
+    environment:
+      MONGO_URL: "mongodb://db-quant"
+
+  db-quant:
+    image: mongo:3.4.4
+    restart: always
+    networks:
+      backend_quant:
+    ports:
+      - "27017:27017/tcp"
+    volumes:
+      - volume-db-quant:/data/db
+
+networks:
+  frontend_quant:
+  backend_quant:
+
+volumes:
+  volume-db-quant:
+  volume-db-client-quant:
