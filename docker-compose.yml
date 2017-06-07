@@ -13,9 +13,10 @@ services:
     ports:
       - "10.1.1.99:3000:3000/tcp"
     volumes:
-      - volume-db-client-quant:/data/db
+      - volume-quant-mongo-client:/data/db
     environment:
       MONGO_URL: "mongodb://db-quant"
+      MONGOCLIENT_DEFAULT_CONNECTION_URL: "mongodb://db-quant"
 
   db-quant:
     image: mongo:3.4.4
@@ -25,12 +26,14 @@ services:
     ports:
       - "27017:27017/tcp"
     volumes:
-      - volume-db-quant:/data/db
+      - volume-quant-db-data:/data/db
+      - volume-quant-db-config:/data/configdb
 
 networks:
   frontend_quant:
   backend_quant:
 
 volumes:
-  volume-db-quant:
-  volume-db-client-quant:
+  volume-quant-db-data:
+  volume-quant-db-config:
+  volume-quant-mongo-client:
